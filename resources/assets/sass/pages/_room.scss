@@ -1,0 +1,139 @@
+.room-view {
+  position: relative;
+  .group-select {
+    text-align: center;
+    background-color: $primary-color;
+    color: $white;
+    height: 35px;
+    line-height: 35px;
+    &.has-other-groups {
+      .dropdown {
+        cursor: pointer;
+        a {
+          color: $white;
+          text-decoration: none;
+        }
+      }
+    }
+    .dropdown {
+      width: 240px;
+      margin: auto;
+    }
+    .dropdown-menu {
+      width: 240px;
+      left: calc(50% - 120px);
+      top: 34px;
+      margin: 0;
+      padding: 15px;
+      background: $primary-color;
+      border: none;
+      color: $white;
+      border-radius: 0 0 20px 20px;
+      .title {
+        max-width: 240px;
+        margin: auto;
+      }
+      .option {
+        padding: 0 20px;
+        cursor: pointer;
+        &:hover {
+          a {
+            color: $secondary-color;  
+          }
+        }
+      }
+    }
+    .arrow-down {
+      margin-left: 5px;
+      position: relative;
+      top: 1px;
+    }
+  }
+  .rooms-container {
+    width: 100vw;
+    height: calc(100vh - 35px);
+    .close-btn {
+      width: 30px;
+      height: 30px;
+      font-size: 16px;
+      color: $white;
+      background-color: $primary-color;
+      display: none;
+      position: absolute;
+      border-radius: 50%;
+      top: 5px;
+      right: 5px;
+      cursor: pointer;
+      i {
+        line-height: 30px;
+      }
+      &.active {
+        display: block;
+      }
+    }
+    .doctors {
+      height: 80px;
+      background-color: $secondary-bg-color;
+      line-height: 80px;
+      text-align: center;
+      overflow: hidden;
+      font-weight: 800;
+      color: $primary-color;
+      font-size: 50px;
+      .room-col {
+        float: left;
+        width: 150px;
+      }
+      .doctor-cols {
+        width: calc(100vw - 150px);
+        float: left;
+        &.empty {
+          display: block;
+        }
+        .doctor-col {
+          position: relative;
+          float: left;
+        }
+      }
+    }
+    .rooms {
+      height: calc(100vh - 115px);
+      .room-col {
+        float: left;
+        width: 150px;
+        height: 100%;
+        border-right: 4px solid $secondary-bg-color;
+        overflow: auto;
+      }
+      .doctor-col {
+        height: 100%;
+        border-right: 4px solid $secondary-bg-color;
+        overflow: auto;
+        float: left;
+      }
+      .room {
+        position: relative;
+        cursor: pointer;
+        font-size: 115px;
+        height: 120px;
+        line-height: 100px;
+        text-align: center;
+        font-weight: 800;
+        color: #000;
+        border-bottom: 4px solid $secondary-bg-color;
+        white-space: nowrap;
+        font-family: monospace;
+        .timerDetails {
+          color:green;
+          font-size: 40px;
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          line-height: 11px;
+          font-family: none;
+        }
+      }
+      
+    }
+  }
+}

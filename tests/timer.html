@@ -1,0 +1,55 @@
+<label id="minutes_1" class="timer-minutes">00</label>:<label id="seconds_1" class="timer-seconds">00</label>
+<button id="reset-first-timer" onclick="resetFirstTimer()">reset</button>
+<br>
+<br>
+<br>
+<label id="minutes_2" class="timer-minutes">00</label>:<label id="seconds_2" class="timer-seconds">00</label>
+<button id="start-second-timer" onclick="resetSecondTimer()">reset</button>
+<br>
+<br>
+<br>
+<label id="minutes_3" class="timer-minutes">00</label>:<label id="seconds_3" class="timer-seconds">00</label>
+<button id="start-third-timer" onclick="resetThirdTimer()">reset</button>
+<script>
+var intervals = [];
+function resetFirstTimer()
+{
+    setRoomTimerOn(1);
+}
+
+function resetSecondTimer()
+{
+    setRoomTimerOn(2);
+}
+function resetThirdTimer()
+{
+    setRoomTimerOn(3);
+}
+setRoomTimerOn(1);
+setRoomTimerOn(2);
+setRoomTimerOn(3);
+function setRoomTimerOn(roomId,totalSeconds) {
+    clearInterval(intervals['interval_'+roomId]);
+    totalSeconds = 0; 
+    document.getElementById("seconds_"+roomId).innerHTML = '00';
+    document.getElementById("minutes_"+roomId).innerHTML = '00';
+    intervals['interval_'+roomId] = setInterval(function () {
+        ++totalSeconds;
+        setRoomTime(roomId,totalSeconds);
+    }, 1000);
+    
+}
+function setRoomTime(roomId,totalSeconds) {
+    document.getElementById("seconds_"+roomId).innerHTML = pad(totalSeconds % 60);
+    document.getElementById("minutes_"+roomId).innerHTML = pad(parseInt(totalSeconds / 60) % 60);
+}
+
+function pad(val) {
+  var valString = val + "";
+  if (valString.length < 2) {
+    return "0" + valString;
+  } else {
+    return valString;
+  }
+}
+</script>
