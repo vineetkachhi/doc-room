@@ -6,7 +6,8 @@
 /public/service
 /public/slider
 /public/blogs
-//.env
+.env
+.env_original
 .env.backup
 .phpunit.result.cache
 docker-compose.override.yml
