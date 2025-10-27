@@ -1,12 +1,16 @@
-RewriteEngine on
-RewriteCond %{HTTP_HOST} ^rehabmysole.com$ [NC,OR]
-RewriteCond %{HTTP_HOST} ^www.rehabmysole.com$
-RewriteCond %{REQUEST_URI} !public/
-RewriteRule (.*) /public/$1 [L]
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
 
+    RewriteEngine On
 
-php_value upload_max_filesize 256M
-php_value post_max_size 256M
-php_value memory_limit 2G
-php_value max_input_time 180
-php_value max_execution_time 180
+    # Redirect Trailing Slashes...
+    RewriteRule ^(.*)/$ /$1 [L,R=301]
+
+    # Handle Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+
+</IfModule>
