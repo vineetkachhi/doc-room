@@ -4,349 +4,412 @@
       <div class="room-col" :style="{ width: roomColumnWidth + 'px' }">
         &nbsp;
       </div>
+
+      <!-- 🩺 Draggable Doctor List -->
       <div
         class="doctor-cols"
         v-if="doctors.length"
         :style="{ width: 'calc(100vw - ' + roomColumnWidth + 'px)' }"
       >
-        <div
-          class="doctor-col"
-          :style="{ width: doctorColumnWidth + 'px' }"
-          v-for="doctor in doctors"
-          @mouseenter="handleCloseBtnShow"
-          @mouseleave="handleCloseBtnHide"
-          v-bind:key="doctor.id"
+        <draggable
+          v-model="doctors"
+          item-key="id"
+          class="doctor-drag-wrapper"
+          :style="{
+            display: 'grid',
+            gridTemplateColumns:
+              'repeat(' + doctors.length + ', ' + doctorColumnWidth + 'px)',
+            width: '100%',
+          }"
+          @update="handleDoctorSort"
         >
-          <div
-            :data-doctor-id="doctor['id']"
-            class="close-btn"
-            @click="handleRemoveDoctor"
-          >
-            <i class="fas fa-times"></i>
-          </div>
-          {{ doctor["name"] }}
-        </div>
+          <template #item="{ element: doctor }">
+            <div
+              class="doctor-col doctor-col-header"
+              :style="{ width: doctorColumnWidth + 'px' }"
+              @mouseenter="handleCloseBtnShow"
+              @mouseleave="handleCloseBtnHide"
+            >
+              <div class="doctor-header">
+                <div class="left-buttons">
+                  <div
+                    class="edit-btn"
+                    :data-doctor-id="doctor.id"
+                    @click="openEditDoctor(doctor)"
+                  >
+                    <i class="fas fa-edit"></i>
+                  </div>
+                  <div
+                    class="close-btn"
+                    :data-doctor-id="doctor.id"
+                    @click="handleRemoveDoctor"
+                  >
+                    <i class="fas fa-times"></i>
+                  </div>
+                </div>
+
+                <div
+                  class="doctor-name"
+                  v-if="!(editingDoctor && editingDoctor.id === doctor.id)"
+                >
+                  {{ doctor.name }}
+                </div>
+
+                <div v-else>
+                  <input
+                    v-model="editingDoctor.name"
+                    @keyup.enter="saveDoctorEdit"
+                    @blur="saveDoctorEdit"
+                    class="edit-input"
+                    placeholder="Edit doctor name"
+                  />
+                </div>
+              </div>
+            </div>
+          </template>
+        </draggable>
       </div>
     </div>
+
+    <!-- 🏠 Rooms Section -->
     <div class="rooms">
+      <!-- Unassigned Rooms -->
       <draggable
-        :style="{ width: roomColumnWidth + 'px' }"
         v-model="unassignedRooms"
-        data-doctor-id="0"
+        :item-key="'id'"
         class="room-col"
-        :options="{ group: 'rooms' }"
+        :style="{ width: roomColumnWidth + 'px' }"
+        :data-doctor-id="0"
+        :group="{ name: 'rooms', pull: true, put: true }"
         @add="handleDrop"
         @update="handleSort"
       >
-        <div
-          :data-doctor-id="0"
-          :data-room-id="room['id']"
-          class="room"
-          v-for="room in unassignedRooms"
-          :key="room['id']"
-          @mouseenter="handleCloseBtnShow"
-          @mouseleave="handleCloseBtnHide"
-        >
+        <template #item="{ element }">
           <div
-            :data-room-id="room['id']"
-            class="close-btn"
-            @click="handleRemoveRoom"
+            class="room"
+            :data-doctor-id="0"
+            :data-room-id="element.id"
+            @mouseenter="handleCloseBtnShow"
+            @mouseleave="handleCloseBtnHide"
           >
-            <i class="fas fa-times"></i>
+            <div
+              class="close-btn"
+              :data-room-id="element.id"
+              @click="handleRemoveRoom"
+            >
+              <i class="fas fa-times"></i>
+            </div>
+            {{ element.name }}
           </div>
-          {{ room["name"] }}
-        </div>
+        </template>
       </draggable>
-      <draggable
-        :style="{ width: doctorColumnWidth + 'px' }"
-        v-model="doctor.rooms"
-        :data-doctor-id="doctor['id']"
+
+      <!-- Doctor Assigned Rooms -->
+      <div
         class="doctor-col"
         v-for="doctor in doctors"
-        :options="{ group: 'rooms' }"
-        @add="handleDrop"
-        @update="handleSort"
-        :key="doctor['id']"
+        :key="doctor.id"
+        :style="{ width: doctorColumnWidth + 'px' }"
+        :data-doctor-id="doctor.id"
       >
-        <div
-          :data-doctor-id="doctor['id']"
-          :data-room-id="room['id']"
-          class="room"
-          v-for="room in doctor.rooms"
-          :key="room['id']"
-          @mouseenter="handleCloseBtnShow"
-          @mouseleave="handleCloseBtnHide"
+        <draggable
+          v-model="doctor.rooms"
+          :item-key="'id'"
+          :group="{ name: 'rooms', pull: true, put: true }"
+          @add="handleDrop"
+          @update="handleSort"
+          :style="{ minHeight: '100%' }"
         >
-          <div
-            :data-room-id="room['id']"
-            class="close-btn"
-            @click="handleRemoveRoom"
-          >
-            <i class="fas fa-times"></i>
-          </div>
-          <span class="roomNameDetails">{{ room["name"] }}</span>
-          <div class="timerDetails">
-            <label
-              :id="'minutes_' + room['id']"
-              class="timer-minutes"
-              :timer-minutes="room['timer_minutes']"
-            ></label>
-            <span v-show="seconds_display == 'true'">
-              <label :id="'colon_' + room['id']" class="timer-colon"></label>
-              <label
-                :id="'seconds_' + room['id']"
-                class="timer-seconds"
-                :timer-seconds="room['timer_seconds']"
-              ></label>
-            </span>
-          </div>
-        </div>
-      </draggable>
+          <template #item="{ element }">
+            <div
+              class="room"
+              :data-doctor-id="doctor.id"
+              :data-room-id="element.id"
+              @mouseenter="handleCloseBtnShow"
+              @mouseleave="handleCloseBtnHide"
+            >
+              <div
+                class="close-btn"
+                :data-room-id="element.id"
+                @click="handleRemoveRoom"
+              >
+                <i class="fas fa-times"></i>
+              </div>
+              <span class="roomNameDetails">{{ element.name }}</span>
+              <div class="timerDetails">
+                <label
+                  :id="'minutes_' + element.id"
+                  class="timer-minutes"
+                  :timer-minutes="element.timer_minutes"
+                ></label>
+                <span v-show="seconds_display === 'true'">
+                  <label
+                    :id="'colon_' + element.id"
+                    class="timer-colon"
+                  ></label>
+                  <label
+                    :id="'seconds_' + element.id"
+                    class="timer-seconds"
+                    :timer-seconds="element.timer_seconds"
+                  ></label>
+                </span>
+              </div>
+            </div>
+          </template>
+        </draggable>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-var intervalValues = [];
+import $ from "jquery";
 import draggable from "vuedraggable";
 import countdown from "vuejs-countdown";
+import axios from "axios";
+import Ably from "ably";
+
+window.$ = window.jQuery = $;
+
+let intervalValues = [];
 
 export default {
-  components: {
-    draggable,
-    countdown,
+  components: { draggable, countdown },
+  props: {
+    userId: { type: String, default: "" },
+    groupId: { type: String, default: "" },
   },
-  data: function () {
+  data() {
     return {
       unassignedRooms: [],
       doctors: [],
       roomColumnWidth: 150,
       doctorColumnWidth: 300,
       seconds_display: process.env.MIX_SHOW_SECONDS,
+      editingDoctor: null,
     };
   },
-  props: {
-    userId: {
-      type: String,
-      default: function () {
-        return "";
-      },
-    },
-    groupId: {
-      type: String,
-      default: function () {
-        return "";
-      },
-    },
-  },
   methods: {
-    handleDrop: function (event) {
-      const fromDoctorId = event.from.dataset.doctorId;
-      const { roomId } = event.item.dataset;
-      const { doctorId } = event.to.dataset;
-      if (doctorId == 0) {
-        clearInterval(intervalValues["interval_" + roomId]);
-      }
+    handleDrop(event) {
+      const roomId = event.item.dataset.roomId;
+      const fromDoctorId = event.item.dataset.doctorId;
+      const toDoctorId = event.to.closest(".doctor-col")?.dataset.doctorId || 0;
+
+      if (toDoctorId == 0) clearInterval(intervalValues["interval_" + roomId]);
       if (fromDoctorId == 0) {
         clearInterval(intervalValues["interval_" + roomId]);
-        var totalSeconds = 0;
+        let totalSeconds = 0;
         setRoomTimerOn(roomId, totalSeconds);
-        intervalValues["interval_" + roomId] = setInterval(function () {
+        intervalValues["interval_" + roomId] = setInterval(() => {
           ++totalSeconds;
           setRoomTimerOn(roomId, totalSeconds);
         }, 1000);
       }
+
       axios
-        .post("/docroom/api/move", {
+        .post("/api/move", {
           groupId: this.groupId,
-          roomId: roomId,
+          roomId,
           from: fromDoctorId,
-          doctorId: doctorId,
+          doctorId: toDoctorId,
         })
-        .then((response) => {
-          console.log(response);
+        .then(() => {
+          console.log("Move API called successfully");
         });
     },
-    handleSort: function (event) {
-      console.log("handle sort");
-      const { doctorId, roomId } = event.item.dataset;
 
+    handleSort(event) {
+      const doctorId = event.from.closest(".doctor-col")?.dataset.doctorId || 0;
       let rooms = [];
+
       if (doctorId == 0) {
-        this.unassignedRooms.map((room, index) => {
-          rooms.push({
-            id: room.id,
-            sort_index: index,
-          });
+        this.unassignedRooms.forEach((room, index) => {
+          rooms.push({ id: room.id, sort_index: index });
         });
       } else {
-        this.doctors.map((doctor) => {
-          if (doctor.id == doctorId) {
-            doctor.rooms.map((room, index) => {
-              rooms.push({
-                id: room.id,
-                sort_index: index,
-              });
-            });
-          }
-        });
+        const doctor = this.doctors.find((d) => d.id == doctorId);
+        if (doctor && doctor.rooms)
+          doctor.rooms.forEach((room, index) =>
+            rooms.push({ id: room.id, sort_index: index })
+          );
       }
 
-      axios
-        .post("/docroom/api/sort", {
-          groupId: this.groupId,
-          rooms: rooms,
-        })
-        .then((response) => {
-          console.log(response);
-        });
+      axios.post("/api/sort", { groupId: this.groupId, rooms });
     },
-    handleRemove: function (type, id) {
-      console.log("handle remove");
-      axios
-        .post("/docroom/api/remove", {
-          groupId: this.groupId,
-          type: type,
-          id: id,
-        })
-        .then((response) => {
-          console.log(response);
-        });
+
+    handleDoctorSort() {
+      const sortedDoctors = this.doctors.map((doctor, index) => ({
+        id: doctor.id,
+        sort_index: index,
+      }));
+
+      axios.post("/api/sort-doctors", {
+        groupId: this.groupId,
+        doctors: sortedDoctors,
+      });
     },
-    refresh: function () {
-      axios
-        .post("/docroom/api/refresh", {
-          groupId: this.groupId,
-        })
-        .then((response) => {
-          $.each(response.data.doctors, function (doctorIndexs, doctorValues) {
-            $.each(doctorValues.rooms, function (roomIndex, roomValues) {
-              var timerMinute = roomValues.timer_minutes;
-              var timerSeconds = roomValues.timer_seconds;
-              var totalSeconds = timerMinute * 60 + parseInt(timerSeconds);
-              var roomId = roomValues.id;
-              clearInterval(intervalValues["interval_" + roomValues.id]);
+
+    handleRemove(type, id) {
+      axios.post("/api/remove", { groupId: this.groupId, type, id });
+    },
+
+    refresh() {
+      // console.log("Refresh method called");
+      axios.post("/api/refresh", { groupId: this.groupId }).then((response) => {
+        // console.log("Refresh API response:", response.data);
+        const data = response.data;
+        this.unassignedRooms = data.unassignedRooms || [];
+        this.doctors = data.doctors || [];
+        if (data.roomWidth) this.roomColumnWidth = data.roomWidth;
+        if (data.doctorWidth) this.doctorColumnWidth = data.doctorWidth;
+
+        this.doctors.forEach((doctor) => {
+          doctor.rooms.forEach((room) => {
+            let totalSeconds =
+              room.timer_minutes * 60 + parseInt(room.timer_seconds);
+            const roomId = room.id;
+            clearInterval(intervalValues["interval_" + roomId]);
+            intervalValues["interval_" + roomId] = setInterval(() => {
+              ++totalSeconds;
               setRoomTimerOn(roomId, totalSeconds);
-              intervalValues["interval_" + roomId] = setInterval(function () {
-                ++totalSeconds;
-                setRoomTimerOn(roomId, totalSeconds);
-              }, 1000);
-            });
+            }, 1000);
           });
-          if (response.data.assignedRooms) {
-            this.assignedRooms = response.data.assignedRooms;
-          }
-          if (response.data.unassignedRooms) {
-            this.unassignedRooms = response.data.unassignedRooms;
-          }
-          if (response.data.doctors) {
-            this.doctors = response.data.doctors;
-          }
-          if (response.data.roomWidth) {
-            this.roomColumnWidth = response.data.roomWidth;
-          }
-          if (response.data.doctorWidth) {
-            this.doctorColumnWidth = response.data.doctorWidth;
-          }
         });
+      });
     },
-    handleCloseBtnShow: function (e) {
-      const $btn = $(e.target).find(".close-btn");
 
-      $btn.addClass("active");
+    handleCloseBtnShow(e) {
+      $(e.currentTarget).find(".close-btn").addClass("active");
     },
-    handleCloseBtnHide: function (e) {
-      const $btn = $(e.target).find(".close-btn");
+    handleCloseBtnHide(e) {
+      $(e.currentTarget).find(".close-btn").removeClass("active");
+    },
 
-      $btn.removeClass("active");
-    },
-    handleRemoveRoom: function (e) {
+    handleRemoveRoom(e) {
       const { roomId } = e.currentTarget.dataset;
-
-      if (confirm("Would you like to remove this room?")) {
+      if (confirm("Would you like to remove this room?"))
         this.handleRemove("room", roomId);
-      }
     },
-    handleRemoveDoctor: function (e) {
+    handleRemoveDoctor(e) {
       const { doctorId } = e.currentTarget.dataset;
-
-      if (confirm("Would you like to remove this doctor?")) {
+      if (confirm("Would you like to remove this doctor?"))
         this.handleRemove("doctor", doctorId);
-      }
+    },
+
+    openEditDoctor(doctor) {
+      this.editingDoctor = { ...doctor };
+    },
+
+    saveDoctorEdit() {
+      if (!this.editingDoctor) return;
+      const updatedDoctor = this.editingDoctor;
+
+      axios
+        .post("/api/update-doctor", {
+          id: updatedDoctor.id,
+          name: updatedDoctor.name,
+          groupId: this.groupId,
+        })
+        .then(() => {
+          const index = this.doctors.findIndex(
+            (d) => d.id === updatedDoctor.id
+          );
+          if (index !== -1) this.doctors[index].name = updatedDoctor.name;
+          this.editingDoctor = null;
+        })
+        .catch((error) => {
+          console.error("Failed to update doctor:", error);
+          alert("Error updating doctor");
+        });
     },
   },
-  created: function () {
-    this.unassignedRooms = unassignedRooms;
-    this.doctors = doctors;
 
-    if (roomWidth) {
-      this.roomColumnWidth = roomWidth;
-    }
+  created() {
+    this.unassignedRooms = window.unassignedRooms || [];
+    this.doctors = window.doctors || [];
+    if (window.roomWidth) this.roomColumnWidth = window.roomWidth;
+    if (window.doctorWidth) this.doctorColumnWidth = window.doctorWidth;
 
-    if (doctorWidth) {
-      this.doctorColumnWidth = doctorWidth;
-    }
+    // console.log("Vue component created, initializing Ably...");
 
     var ably = new Ably.Realtime(process.env.MIX_ABLY_KEY);
     var channel = ably.channels.get(
       "door-room-channel_" + app_name + "_" + groupId
     );
-    channel.subscribe("update", (res) => {
+
+    channel.subscribe("update", (message) => {
+      console.log("Ably message received:", message);
       this.refresh();
     });
   },
 };
 
 function setRoomTimerOn(roomId, totalSeconds) {
-  var timerMinute = padWithZero(parseInt(totalSeconds / 60));
-  var timerSeconds = padWithZero(totalSeconds % 60);
+  let timerMinute = padWithZero(parseInt(totalSeconds / 60));
+  let timerSeconds = padWithZero(totalSeconds % 60);
+  let timerColor = "green";
+
   if (timerMinute > 99) {
-    var timerColor = "red";
-    var timerMinute = "XX";
-    var timerSeconds = "XX";
+    timerColor = "red";
+    timerMinute = "XX";
+    timerSeconds = "XX";
   } else if (timerMinute > 40) {
-    var timerColor = "rgb(253, 144, 1)";
-  } else {
-    var timerColor = "green";
+    timerColor = "rgb(253, 144, 1)";
   }
-  $("#minutes_" + roomId)
-    .parent()
-    .css("color", timerColor);
-  if (document.getElementById("seconds_" + roomId))
-    document.getElementById("seconds_" + roomId).innerHTML = timerSeconds;
-  if (document.getElementById("minutes_" + roomId))
-    document.getElementById("minutes_" + roomId).innerHTML = timerMinute;
-  if (document.getElementById("colon_" + roomId))
-    document.getElementById("colon_" + roomId).innerHTML = ":";
+
+  const $el = $("#minutes_" + roomId).parent();
+  $el.css("color", timerColor);
+  $("#minutes_" + roomId).text(timerMinute);
+  $("#seconds_" + roomId).text(timerSeconds);
+  $("#colon_" + roomId).text(":");
 }
 
-function padWithZero(formattedValues) {
-  var valueString = formattedValues + "";
-  if (valueString.length < 2) {
-    return "0" + valueString;
-  } else {
-    return valueString;
-  }
+function padWithZero(value) {
+  return value.toString().padStart(2, "0");
 }
-$(document).ready(function () {
-  $(window).on("unload", function () {});
-  $(".room").each(function (i, obj) {
-    if ($(obj).attr("data-doctor-id") != 0) {
-      var timerMinute = $(obj)
-        .find(".timerDetails")
-        .find(".timer-minutes")
-        .attr("timer-minutes");
-      var timerSeconds = $(obj)
-        .find(".timerDetails")
-        .find(".timer-seconds")
-        .attr("timer-seconds");
-      var totalSeconds = timerMinute * 60 + parseInt(timerSeconds);
-      var roomId = $(obj).attr("data-room-id");
-      intervalValues["interval_" + roomId] = setInterval(function () {
-        ++totalSeconds;
-        setRoomTimerOn(roomId, totalSeconds);
-      }, 1000);
-    }
-  });
-});
 </script>
+
+<style scoped>
+.doctor-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.left-buttons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.edit-btn i {
+  color: #007bff;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.close-btn i {
+  color: red;
+  cursor: pointer;
+}
+
+.edit-input {
+  width: 90%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 2px 6px;
+  margin-top: 4px;
+}
+
+/* ✅ Added for Doctor List Alignment Fix */
+.doctor-drag-wrapper {
+  display: grid !important;
+  align-items: stretch;
+  justify-content: start;
+}
+
+.doctor-col-header {
+  box-sizing: border-box;
+  min-width: 0;
+}
+</style>

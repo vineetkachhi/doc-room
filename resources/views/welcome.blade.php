@@ -1,143 +1,148 @@
 <!doctype html>
 <html lang="{{ app()->getLocale() }}">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Doctor Room</title>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <!-- CSRF Token -->
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Doctor Room</title>
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #000;
-                color: #fff; /*#636b6f*/
-                font-family: 'Raleway', sans-serif;
-                font-weight: 100;
-                height: 100vh;
-                margin: 0;
-            }
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
-            .background {
-              background-image: url('/docroom/img/global/home-bg-1.webp');
-              background-position: center center;
-              background-repeat: no-repeat;
-              background-attachment: fixed;
-              background-size: cover;
-              width: 100%;
-              height: 100%;
-              position: absolute;
-              top: 0;
-              left: 0;
-            }
+    <!-- Styles -->
+    <style>
+        html,
+        body {
+            background-color: #000;
+            color: #fff;
+            /*#636b6f*/
+            font-family: 'Raleway', sans-serif;
+            font-weight: 100;
+            height: 100vh;
+            margin: 0;
+        }
 
-            .full-height {
-                height: 100vh;
-            }
+        .background {
+            background-image: url('/docroom/img/global/home-bg-1.webp');
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
 
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
+        .full-height {
+            height: 100vh;
+        }
 
-            .position-ref {
-                position: relative;
-            }
+        .flex-center {
+            align-items: center;
+            display: flex;
+            justify-content: center;
+        }
 
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
+        .position-ref {
+            position: relative;
+        }
 
-            .content {
-                text-align: center;
-                position: absolute;
-            }
+        .top-right {
+            position: absolute;
+            right: 10px;
+            top: 18px;
+        }
 
-            .title {
-                font-size: 84px;
-            }
+        .content {
+            text-align: center;
+            position: absolute;
+        }
 
-            .links > a {
-                color: #fff;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
+        .title {
+            font-size: 84px;
+        }
 
-            .m-b-md {
-                margin-bottom: 30px;
-            }
+        .links>a {
+            color: #fff;
+            padding: 0 25px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: .1rem;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
 
-            .overlay-full {
-              background-color: rgba(255, 255, 255, 0.2);
-              width: 100vw;
-              height: 100vh;
-              position: absolute;
-              top: 0;
-              left: 0;
-            }
+        .m-b-md {
+            margin-bottom: 30px;
+        }
 
-            #image-placeholder {
-              display: none;
-            }
-        </style>
-    </head>
-    <body>
-      <div id="root">
+        .overlay-full {
+            background-color: rgba(255, 255, 255, 0.2);
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        #image-placeholder {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root">
         <div class="flex-center position-ref full-height root">
-          <div class="background"></div>
-          <div class="overlay-full"></div>
-          @if (Route::has('login'))
-              <div class="top-right links">
-                  @auth
-                      @if(Auth::user()->primary_group_id == 0 && Auth::user()->role_id == 3)
-                        @if(Auth::user()->role_id == 3)
-                          <a href="/super">Home</a>
-                        @elseif(Auth::user()->role_id == 2)
-                          <a href="/admin">Home</a>
+            <div class="background"></div>
+            <div class="overlay-full"></div>
+            @if (Route::has('login'))
+                <div class="top-right links">
+                    @auth
+                        @if (Auth::user()->primary_group_id == 0 && Auth::user()->role_id == 3)
+                            @if (Auth::user()->role_id == 3)
+                                <a href="/super">Home</a>
+                            @elseif(Auth::user()->role_id == 2)
+                                <a href="/admin">Home</a>
+                            @endif
+                        @else
+                            <a href="/home/{{ Auth::user()->primary_group_id }}">Home</a>
                         @endif
-                      @else
-                        <a href="/docroom/home/{{Auth::user()->primary_group_id}}">Home</a>
-                      @endif
-                      <a href="{{ route('logout') }}"
-                         onclick="event.preventDefault();
+                        <a href="{{ route('logout') }}"
+                            onclick="event.preventDefault();
                                        document.getElementById('logout-form').submit();">
-                          Logout
-                      </a>
-                  @else
-                      <a href="{{ route('login') }}">Login</a>
-                      <a href="{{ route('register') }}">Register</a>
-                  @endauth
-                  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                      @csrf
-                  </form>
-              </div>
-          @endif
+                            Logout
+                        </a>
+                    @else
+                        <a href="{{ route('login') }}">Login</a>
+                        <a href="{{ route('register') }}">Register</a>
+                    @endauth
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                </div>
+            @endif
 
-          <div class="content">
-              <div class="title m-b-md">
-                  Doctor Room
-              </div>
-          </div>
+            <div class="content">
+                <div class="title m-b-md">
+                    Doctor Room
+                </div>
+            </div>
         </div>
 
         <background-player :time="8000" :num-of-images="7"></background-player>
         <img id="image-placeholder" src="#" />
-      </div>
+    </div>
 
-      <!-- Scripts -->
-      <script src="{{ asset('js/app.js') }}"></script>
-    </body>
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}"></script>
+</body>
+
 </html>

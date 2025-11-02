@@ -122,4 +122,13 @@ class LoginController extends Controller
 
     return redirect()->route('login')->with('message', $message);
   }
+
+  public function logout(Request $request)
+  {
+    Auth::logout();
+
+    $cookie = Cookie::forget('jwt');
+
+    return redirect()->route('login')->withCookie($cookie);
+  }
 }

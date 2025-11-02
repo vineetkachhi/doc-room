@@ -20,6 +20,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('add', 'APIController@add')->middleware('auth.groupuser');
 Route::post('move', 'APIController@move')->middleware('auth.groupuser');
+Route::post('update-doctor', 'APIController@updateDoctor')->middleware('auth.groupuser');
+Route::post('sort-doctors', 'APIController@sortDoctor')->middleware('auth.groupuser');
+
 Route::post('sort', 'APIController@sort')->middleware('auth.groupuser');
 Route::post('remove', 'APIController@remove')->middleware('auth.groupuser');
 Route::post('setWidth', 'APIController@setWidth')->middleware('auth.groupuser');

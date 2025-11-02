@@ -10,7 +10,8 @@ class Doctor extends Model
     'created_at' => 'datetime:Y-m-d H:i:s',
     'updated_at' => 'datetime:Y-m-d H:i:s',
   ];
-  public function rooms() {
-    return $this->hasMany('App\Room')->orderBy('sort_index');
+  public function rooms()
+  {
+    return $this->hasMany('App\Room')->orderBy('sort_index', 'asc');
   }
 }

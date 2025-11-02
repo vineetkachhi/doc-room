@@ -8,6 +8,7 @@
 /public/blogs
 .env
 .env_original
+.env_demo
 .env.backup
 .phpunit.result.cache
 docker-compose.override.yml
