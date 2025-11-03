@@ -49,7 +49,8 @@
                   v-if="!(editingDoctor && editingDoctor.id === doctor.id)"
                   @dblclick="openEditDoctor(doctor)"
                 >
-                  <i class="fas fa-grip-vertical"></i>
+                  <i class="fas fa-hand-paper"></i>
+
                   {{ doctor.name }}
                 </div>
 
@@ -447,5 +448,17 @@ function padWithZero(value) {
 .room:hover .close-btn {
   opacity: 1;
   visibility: visible;
+}
+
+.doctor-name i {
+  opacity: 0; /* hide icon by default */
+  transition: opacity 0.3s ease;
+  margin-right: 5px; /* spacing before name */
+}
+
+.doctor-name:hover i {
+  opacity: 1; /* show icon on hover */
+  cursor: pointer; /* hand cursor */
+  color: #007bff; /* optional: blue hover color */
 }
 </style>
