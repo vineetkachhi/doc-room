@@ -21,7 +21,8 @@
               'repeat(' + doctors.length + ', ' + doctorColumnWidth + 'px)',
             width: '100%',
           }"
-          @update="handleDoctorSort"
+          :group="{ name: 'doctors', pull: false, put: false }"
+          @end="handleDoctorSort"
         >
           <template #item="{ element: doctor }">
             <div
@@ -62,6 +63,7 @@
                     @blur="saveDoctorEdit"
                     class="edit-input"
                     placeholder="Edit doctor name"
+                    ref="editInput"
                   />
                 </div>
               </div>
@@ -206,16 +208,12 @@ export default {
         }, 1000);
       }
 
-      axios
-        .post("/api/move", {
-          groupId: this.groupId,
-          roomId,
-          from: fromDoctorId,
-          doctorId: toDoctorId,
-        })
-        .then(() => {
-          console.log("Move API called successfully");
-        });
+      axios.post("/api/move", {
+        groupId: this.groupId,
+        roomId,
+        from: fromDoctorId,
+        doctorId: toDoctorId,
+      });
     },
 
     handleSort(event) {
@@ -242,7 +240,6 @@ export default {
         id: doctor.id,
         sort_index: index,
       }));
-
       axios.post("/api/sort-doctors", {
         groupId: this.groupId,
         doctors: sortedDoctors,
@@ -254,9 +251,7 @@ export default {
     },
 
     refresh() {
-      // console.log("Refresh method called");
       axios.post("/api/refresh", { groupId: this.groupId }).then((response) => {
-        // console.log("Refresh API response:", response.data);
         const data = response.data;
         this.unassignedRooms = data.unassignedRooms || [];
         this.doctors = data.doctors || [];
@@ -298,6 +293,10 @@ export default {
 
     openEditDoctor(doctor) {
       this.editingDoctor = { ...doctor };
+      this.$nextTick(() => {
+        const input = this.$refs.editInput;
+        if (input && input.focus) input.focus();
+      });
     },
 
     saveDoctorEdit() {
@@ -314,12 +313,16 @@ export default {
           const index = this.doctors.findIndex(
             (d) => d.id === updatedDoctor.id
           );
-          if (index !== -1) this.doctors[index].name = updatedDoctor.name;
-          this.editingDoctor = null;
+          if (index !== -1) {
+            this.$set(this.doctors, index, {
+              ...this.doctors[index],
+              name: updatedDoctor.name,
+            });
+          }
         })
-        .catch((error) => {
-          console.error("Failed to update doctor:", error);
-          alert("Error updating doctor");
+        .catch(() => console.log("Error updating doctor"))
+        .finally(() => {
+          this.editingDoctor = null; // <- input yahan close ho jayega
         });
     },
   },
@@ -330,17 +333,28 @@ export default {
     if (window.roomWidth) this.roomColumnWidth = window.roomWidth;
     if (window.doctorWidth) this.doctorColumnWidth = window.doctorWidth;
 
-    // console.log("Vue component created, initializing Ably...");
+    this.$nextTick(() => {
+      this.doctors.forEach((doctor) => {
+        doctor.rooms.forEach((room) => {
+          let totalSeconds =
+            room.timer_minutes * 60 + parseInt(room.timer_seconds);
+          const roomId = room.id;
+          setRoomTimerOn(roomId, totalSeconds);
+          clearInterval(intervalValues["interval_" + roomId]);
+          intervalValues["interval_" + roomId] = setInterval(() => {
+            ++totalSeconds;
+            setRoomTimerOn(roomId, totalSeconds);
+          }, 1000);
+        });
+      });
+    });
 
     var ably = new Ably.Realtime(process.env.MIX_ABLY_KEY);
     var channel = ably.channels.get(
-      "door-room-channel_" + app_name + "_" + groupId
+      "door-room-channel_" + app_name + "_" + this.groupId
     );
 
-    channel.subscribe("update", (message) => {
-      console.log("Ably message received:", message);
-      this.refresh();
-    });
+    channel.subscribe("update", () => this.refresh());
   },
 };
 
@@ -401,7 +415,6 @@ function padWithZero(value) {
   margin-top: 4px;
 }
 
-/* ✅ Added for Doctor List Alignment Fix */
 .doctor-drag-wrapper {
   display: grid !important;
   align-items: stretch;
@@ -411,5 +424,26 @@ function padWithZero(value) {
 .doctor-col-header {
   box-sizing: border-box;
   min-width: 0;
+}
+
+.left-buttons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.edit-btn,
+.close-btn {
+  opacity: 0; /* default hide */
+  visibility: hidden; /* default hide */
+  transition: opacity 0.2s ease;
+}
+
+.doctor-col-header:hover .edit-btn,
+.doctor-col-header:hover .close-btn,
+.doctor-col-header .edit-btn.active,
+.doctor-col-header .close-btn.active {
+  opacity: 1; /* show on hover */
+  visibility: visible;
 }
 </style>

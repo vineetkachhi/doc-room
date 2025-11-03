@@ -35,10 +35,14 @@ class APIController extends Controller
       }
 
       if ($data['doctor']) {
+        // Get current max sort_index for the group
+        $maxSort = Doctor::where('group_id', $data['groupId'])->max('sort_index');
+
+        // Create new doctor
         $doctor = new Doctor;
         $doctor->name = $data['doctor'];
         $doctor->group_id = $data['groupId'];
-
+        $doctor->sort_index = $maxSort + 1; // Set new max + 1
         $doctor->save();
       }
 
@@ -167,7 +171,7 @@ class APIController extends Controller
   {
     $group = Group::find($data['groupId']);
     $rooms = $group->rooms;
-    $doctors = $group->doctors;
+    $doctors = $group->doctors()->orderBy('sort_index', 'asc')->get();
     $unassignedRooms = [];
 
     foreach ($doctors as &$doctor) {

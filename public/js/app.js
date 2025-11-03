@@ -46752,8 +46752,6 @@ var intervalValues = [];
         roomId: roomId,
         from: fromDoctorId,
         doctorId: toDoctorId
-      }).then(function () {
-        console.log("Move API called successfully");
       });
     },
     handleSort: function handleSort(event) {
@@ -46804,11 +46802,9 @@ var intervalValues = [];
     },
     refresh: function refresh() {
       var _this = this;
-      // console.log("Refresh method called");
       axios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/api/refresh", {
         groupId: this.groupId
       }).then(function (response) {
-        // console.log("Refresh API response:", response.data);
         var data = response.data;
         _this.unassignedRooms = data.unassignedRooms || [];
         _this.doctors = data.doctors || [];
@@ -46842,10 +46838,15 @@ var intervalValues = [];
       if (confirm("Would you like to remove this doctor?")) this.handleRemove("doctor", doctorId);
     },
     openEditDoctor: function openEditDoctor(doctor) {
+      var _this2 = this;
       this.editingDoctor = _objectSpread({}, doctor);
+      this.$nextTick(function () {
+        var input = _this2.$refs.editInput;
+        if (input && input.focus) input.focus();
+      });
     },
     saveDoctorEdit: function saveDoctorEdit() {
-      var _this2 = this;
+      var _this3 = this;
       if (!this.editingDoctor) return;
       var updatedDoctor = this.editingDoctor;
       axios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/api/update-doctor", {
@@ -46853,31 +46854,45 @@ var intervalValues = [];
         name: updatedDoctor.name,
         groupId: this.groupId
       }).then(function () {
-        var index = _this2.doctors.findIndex(function (d) {
+        var index = _this3.doctors.findIndex(function (d) {
           return d.id === updatedDoctor.id;
         });
-        if (index !== -1) _this2.doctors[index].name = updatedDoctor.name;
-        _this2.editingDoctor = null;
-      })["catch"](function (error) {
-        console.error("Failed to update doctor:", error);
-        alert("Error updating doctor");
+        if (index !== -1) {
+          _this3.$set(_this3.doctors, index, _objectSpread(_objectSpread({}, _this3.doctors[index]), {}, {
+            name: updatedDoctor.name
+          }));
+        }
+      })["catch"](function () {
+        return console.log("Error updating doctor");
+      })["finally"](function () {
+        _this3.editingDoctor = null; // <- input yahan close ho jayega
       });
     }
   },
   created: function created() {
-    var _this3 = this;
+    var _this4 = this;
     this.unassignedRooms = window.unassignedRooms || [];
     this.doctors = window.doctors || [];
     if (window.roomWidth) this.roomColumnWidth = window.roomWidth;
     if (window.doctorWidth) this.doctorColumnWidth = window.doctorWidth;
-
-    // console.log("Vue component created, initializing Ably...");
-
+    this.$nextTick(function () {
+      _this4.doctors.forEach(function (doctor) {
+        doctor.rooms.forEach(function (room) {
+          var totalSeconds = room.timer_minutes * 60 + parseInt(room.timer_seconds);
+          var roomId = room.id;
+          setRoomTimerOn(roomId, totalSeconds);
+          clearInterval(intervalValues["interval_" + roomId]);
+          intervalValues["interval_" + roomId] = setInterval(function () {
+            ++totalSeconds;
+            setRoomTimerOn(roomId, totalSeconds);
+          }, 1000);
+        });
+      });
+    });
     var ably = new (ably__WEBPACK_IMPORTED_MODULE_4___default().Realtime)("UzgxMQ.8-p_Dw:IxvqUUHQpwlwI14X");
-    var channel = ably.channels.get("door-room-channel_" + app_name + "_" + groupId);
-    channel.subscribe("update", function (message) {
-      console.log("Ably message received:", message);
-      _this3.refresh();
+    var channel = ably.channels.get("door-room-channel_" + app_name + "_" + this.groupId);
+    channel.subscribe("update", function () {
+      return _this4.refresh();
     });
   }
 });
@@ -47192,7 +47207,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       gridTemplateColumns: 'repeat(' + $data.doctors.length + ', ' + $data.doctorColumnWidth + 'px)',
       width: '100%'
     }),
-    onUpdate: $options.handleDoctorSort
+    group: {
+      name: 'doctors',
+      pull: false,
+      put: false
+    },
+    onEnd: $options.handleDoctorSort
   }, {
     item: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref) {
       var doctor = _ref.element;
@@ -47234,11 +47254,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           return $options.saveDoctorEdit && $options.saveDoctorEdit.apply($options, arguments);
         }),
         "class": "edit-input",
-        placeholder: "Edit doctor name"
+        placeholder: "Edit doctor name",
+        ref: "editInput"
       }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.editingDoctor.name]])]))])], 36 /* STYLE, NEED_HYDRATION */)];
     }),
     _: 1 /* STABLE */
-  }, 8 /* PROPS */, ["modelValue", "style", "onUpdate"])], 4 /* STYLE */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 🏠 Rooms Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Unassigned Rooms "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_draggable, {
+  }, 8 /* PROPS */, ["modelValue", "style", "onEnd"])], 4 /* STYLE */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 🏠 Rooms Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Unassigned Rooms "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_draggable, {
     modelValue: $data.unassignedRooms,
     "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
       return $data.unassignedRooms = $event;
@@ -53918,7 +53939,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.doctor-header[data-v-33a4be9e] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n.left-buttons[data-v-33a4be9e] {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n}\n.edit-btn i[data-v-33a4be9e] {\n  color: #007bff;\n  cursor: pointer;\n  font-size: 16px;\n}\n.close-btn i[data-v-33a4be9e] {\n  color: red;\n  cursor: pointer;\n}\n.edit-input[data-v-33a4be9e] {\n  width: 90%;\n  border: 1px solid #ccc;\n  border-radius: 4px;\n  padding: 2px 6px;\n  margin-top: 4px;\n}\n\n/* ✅ Added for Doctor List Alignment Fix */\n.doctor-drag-wrapper[data-v-33a4be9e] {\n  display: grid !important;\n  align-items: stretch;\n  justify-content: start;\n}\n.doctor-col-header[data-v-33a4be9e] {\n  box-sizing: border-box;\n  min-width: 0;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.doctor-header[data-v-33a4be9e] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n.left-buttons[data-v-33a4be9e] {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n}\n.edit-btn i[data-v-33a4be9e] {\n  color: #007bff;\n  cursor: pointer;\n  font-size: 16px;\n}\n.close-btn i[data-v-33a4be9e] {\n  color: red;\n  cursor: pointer;\n}\n.edit-input[data-v-33a4be9e] {\n  width: 90%;\n  border: 1px solid #ccc;\n  border-radius: 4px;\n  padding: 2px 6px;\n  margin-top: 4px;\n}\n.doctor-drag-wrapper[data-v-33a4be9e] {\n  display: grid !important;\n  align-items: stretch;\n  justify-content: start;\n}\n.doctor-col-header[data-v-33a4be9e] {\n  box-sizing: border-box;\n  min-width: 0;\n}\n.left-buttons[data-v-33a4be9e] {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n}\n.edit-btn[data-v-33a4be9e],\n.close-btn[data-v-33a4be9e] {\n  opacity: 0; /* default hide */\n  visibility: hidden; /* default hide */\n  transition: opacity 0.2s ease;\n}\n.doctor-col-header:hover .edit-btn[data-v-33a4be9e],\n.doctor-col-header:hover .close-btn[data-v-33a4be9e],\n.doctor-col-header .edit-btn.active[data-v-33a4be9e],\n.doctor-col-header .close-btn.active[data-v-33a4be9e] {\n  opacity: 1; /* show on hover */\n  visibility: visible;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
