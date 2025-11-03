@@ -44,13 +44,11 @@
                 </div>
 
                 <div
-                  class="doctor-name"
+                  class="doctor-name grab"
                   style="flex-grow: 1; text-align: center"
                   v-if="!(editingDoctor && editingDoctor.id === doctor.id)"
                   @dblclick="openEditDoctor(doctor)"
                 >
-                  <i class="fas fa-hand-paper"></i>
-
                   {{ doctor.name }}
                 </div>
 
@@ -460,5 +458,10 @@ function padWithZero(value) {
   opacity: 1; /* show icon on hover */
   cursor: pointer; /* hand cursor */
   color: #007bff; /* optional: blue hover color */
+}
+
+.grab {
+  cursor: -webkit-grab;
+  cursor: grab;
 }
 </style>

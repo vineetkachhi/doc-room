@@ -47112,6 +47112,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
+var _hoisted_1 = {
+  style: {
+    "font-size": "30px",
+    "font-weight": "900"
+  }
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     onMouseover: _cache[0] || (_cache[0] = function () {
@@ -47120,7 +47126,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onMouseleave: _cache[1] || (_cache[1] = function () {
       return $options.handleMouseLeave && $options.handleMouseLeave.apply($options, arguments);
     })
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "default")], 32 /* NEED_HYDRATION */);
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "default")], 32 /* NEED_HYDRATION */);
 }
 
 /***/ }),
@@ -47236,7 +47242,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "fas fa-times"
       }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_6)]), !($data.editingDoctor && $data.editingDoctor.id === doctor.id) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
         key: 0,
-        "class": "doctor-name",
+        "class": "doctor-name grab",
         style: {
           "flex-grow": "1",
           "text-align": "center"
@@ -47244,9 +47250,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         onDblclick: function onDblclick($event) {
           return $options.openEditDoctor(doctor);
         }
-      }, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-        "class": "fas fa-hand-paper"
-      }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(doctor.name), 1 /* TEXT */)], 40 /* PROPS, NEED_HYDRATION */, _hoisted_7)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(doctor.name), 41 /* TEXT, PROPS, NEED_HYDRATION */, _hoisted_7)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
         "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
           return $data.editingDoctor.name = $event;
         }),
@@ -47299,7 +47303,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: _cache[7] || (_cache[7] = function () {
           return $options.handleRemoveRoom && $options.handleRemoveRoom.apply($options, arguments);
         })
-      }, _toConsumableArray(_cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, _toConsumableArray(_cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "fas fa-times"
       }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_11), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(element.name), 1 /* TEXT */)], 40 /* PROPS, NEED_HYDRATION */, _hoisted_10)];
     }),
@@ -47347,7 +47351,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           onClick: _cache[11] || (_cache[11] = function () {
             return $options.handleRemoveRoom && $options.handleRemoveRoom.apply($options, arguments);
           })
-        }, _toConsumableArray(_cache[17] || (_cache[17] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        }, _toConsumableArray(_cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
           "class": "fas fa-times"
         }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_14), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(element.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
           id: 'minutes_' + element.id,
@@ -53942,7 +53946,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.doctor-header[data-v-33a4be9e] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n.left-buttons[data-v-33a4be9e] {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n}\n.edit-btn i[data-v-33a4be9e] {\n  color: #007bff;\n  cursor: pointer;\n  font-size: 16px;\n}\n.close-btn i[data-v-33a4be9e] {\n  color: red;\n  cursor: pointer;\n}\n.edit-input[data-v-33a4be9e] {\n  width: 90%;\n  border: 1px solid #ccc;\n  border-radius: 4px;\n  padding: 2px 6px;\n  margin-top: 4px;\n}\n.doctor-drag-wrapper[data-v-33a4be9e] {\n  display: grid !important;\n  align-items: stretch;\n  justify-content: start;\n}\n.doctor-col-header[data-v-33a4be9e] {\n  box-sizing: border-box;\n  min-width: 0;\n}\n.left-buttons[data-v-33a4be9e] {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n}\n.edit-btn[data-v-33a4be9e],\n.close-btn[data-v-33a4be9e] {\n  opacity: 0; /* default hide */\n  visibility: hidden; /* default hide */\n  transition: opacity 0.2s ease;\n}\n.doctor-col-header:hover .edit-btn[data-v-33a4be9e],\n.doctor-col-header:hover .close-btn[data-v-33a4be9e],\n.doctor-col-header .edit-btn.active[data-v-33a4be9e],\n.doctor-col-header .close-btn.active[data-v-33a4be9e] {\n  opacity: 1; /* show on hover */\n  visibility: visible;\n}\n.room:hover .close-btn[data-v-33a4be9e] {\n  opacity: 1;\n  visibility: visible;\n}\n.doctor-name i[data-v-33a4be9e] {\n  opacity: 0; /* hide icon by default */\n  transition: opacity 0.3s ease;\n  margin-right: 5px; /* spacing before name */\n}\n.doctor-name:hover i[data-v-33a4be9e] {\n  opacity: 1; /* show icon on hover */\n  cursor: pointer; /* hand cursor */\n  color: #007bff; /* optional: blue hover color */\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.doctor-header[data-v-33a4be9e] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n.left-buttons[data-v-33a4be9e] {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n}\n.edit-btn i[data-v-33a4be9e] {\n  color: #007bff;\n  cursor: pointer;\n  font-size: 16px;\n}\n.close-btn i[data-v-33a4be9e] {\n  color: red;\n  cursor: pointer;\n}\n.edit-input[data-v-33a4be9e] {\n  width: 90%;\n  border: 1px solid #ccc;\n  border-radius: 4px;\n  padding: 2px 6px;\n  margin-top: 4px;\n}\n.doctor-drag-wrapper[data-v-33a4be9e] {\n  display: grid !important;\n  align-items: stretch;\n  justify-content: start;\n}\n.doctor-col-header[data-v-33a4be9e] {\n  box-sizing: border-box;\n  min-width: 0;\n}\n.left-buttons[data-v-33a4be9e] {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n}\n.edit-btn[data-v-33a4be9e],\n.close-btn[data-v-33a4be9e] {\n  opacity: 0; /* default hide */\n  visibility: hidden; /* default hide */\n  transition: opacity 0.2s ease;\n}\n.doctor-col-header:hover .edit-btn[data-v-33a4be9e],\n.doctor-col-header:hover .close-btn[data-v-33a4be9e],\n.doctor-col-header .edit-btn.active[data-v-33a4be9e],\n.doctor-col-header .close-btn.active[data-v-33a4be9e] {\n  opacity: 1; /* show on hover */\n  visibility: visible;\n}\n.room:hover .close-btn[data-v-33a4be9e] {\n  opacity: 1;\n  visibility: visible;\n}\n.doctor-name i[data-v-33a4be9e] {\n  opacity: 0; /* hide icon by default */\n  transition: opacity 0.3s ease;\n  margin-right: 5px; /* spacing before name */\n}\n.doctor-name:hover i[data-v-33a4be9e] {\n  opacity: 1; /* show icon on hover */\n  cursor: pointer; /* hand cursor */\n  color: #007bff; /* optional: blue hover color */\n}\n.grab[data-v-33a4be9e] {\n  cursor: grab;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

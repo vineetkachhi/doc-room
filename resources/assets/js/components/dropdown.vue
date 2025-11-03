@@ -1,6 +1,6 @@
 <template>
   <div @mouseover="handleMouseOver" @mouseleave="handleMouseLeave">
-    <a>
+    <a style="font-size: 30px; font-weight: 900">
       {{ title }}
     </a>
     <slot></slot>
