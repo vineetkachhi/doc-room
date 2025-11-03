@@ -47156,12 +47156,9 @@ var _hoisted_3 = {
 var _hoisted_4 = {
   "class": "left-buttons"
 };
-var _hoisted_5 = ["data-doctor-id", "onClick"];
+var _hoisted_5 = ["data-doctor-id"];
 var _hoisted_6 = ["data-doctor-id"];
-var _hoisted_7 = {
-  key: 0,
-  "class": "doctor-name"
-};
+var _hoisted_7 = ["onDblclick"];
 var _hoisted_8 = {
   key: 1
 };
@@ -47228,22 +47225,28 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           return $options.handleCloseBtnHide && $options.handleCloseBtnHide.apply($options, arguments);
         })
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-        "class": "edit-btn",
-        "data-doctor-id": doctor.id,
-        onClick: function onClick($event) {
-          return $options.openEditDoctor(doctor);
-        }
-      }, _toConsumableArray(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-        "class": "fas fa-edit"
-      }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_5), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+        "data-doctor-id": doctor.id
+      }, null, 8 /* PROPS */, _hoisted_5), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
         "class": "close-btn",
         "data-doctor-id": doctor.id,
         onClick: _cache[0] || (_cache[0] = function () {
           return $options.handleRemoveDoctor && $options.handleRemoveDoctor.apply($options, arguments);
         })
-      }, _toConsumableArray(_cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, _toConsumableArray(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "fas fa-times"
-      }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_6)]), !($data.editingDoctor && $data.editingDoctor.id === doctor.id) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(doctor.name), 1 /* TEXT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_6)]), !($data.editingDoctor && $data.editingDoctor.id === doctor.id) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+        key: 0,
+        "class": "doctor-name",
+        style: {
+          "flex-grow": "1",
+          "text-align": "center"
+        },
+        onDblclick: function onDblclick($event) {
+          return $options.openEditDoctor(doctor);
+        }
+      }, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        "class": "fas fa-grip-vertical"
+      }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(doctor.name), 1 /* TEXT */)], 40 /* PROPS, NEED_HYDRATION */, _hoisted_7)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
         "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
           return $data.editingDoctor.name = $event;
         }),
@@ -53939,7 +53942,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.doctor-header[data-v-33a4be9e] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n.left-buttons[data-v-33a4be9e] {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n}\n.edit-btn i[data-v-33a4be9e] {\n  color: #007bff;\n  cursor: pointer;\n  font-size: 16px;\n}\n.close-btn i[data-v-33a4be9e] {\n  color: red;\n  cursor: pointer;\n}\n.edit-input[data-v-33a4be9e] {\n  width: 90%;\n  border: 1px solid #ccc;\n  border-radius: 4px;\n  padding: 2px 6px;\n  margin-top: 4px;\n}\n.doctor-drag-wrapper[data-v-33a4be9e] {\n  display: grid !important;\n  align-items: stretch;\n  justify-content: start;\n}\n.doctor-col-header[data-v-33a4be9e] {\n  box-sizing: border-box;\n  min-width: 0;\n}\n.left-buttons[data-v-33a4be9e] {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n}\n.edit-btn[data-v-33a4be9e],\n.close-btn[data-v-33a4be9e] {\n  opacity: 0; /* default hide */\n  visibility: hidden; /* default hide */\n  transition: opacity 0.2s ease;\n}\n.doctor-col-header:hover .edit-btn[data-v-33a4be9e],\n.doctor-col-header:hover .close-btn[data-v-33a4be9e],\n.doctor-col-header .edit-btn.active[data-v-33a4be9e],\n.doctor-col-header .close-btn.active[data-v-33a4be9e] {\n  opacity: 1; /* show on hover */\n  visibility: visible;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.doctor-header[data-v-33a4be9e] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n.left-buttons[data-v-33a4be9e] {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n}\n.edit-btn i[data-v-33a4be9e] {\n  color: #007bff;\n  cursor: pointer;\n  font-size: 16px;\n}\n.close-btn i[data-v-33a4be9e] {\n  color: red;\n  cursor: pointer;\n}\n.edit-input[data-v-33a4be9e] {\n  width: 90%;\n  border: 1px solid #ccc;\n  border-radius: 4px;\n  padding: 2px 6px;\n  margin-top: 4px;\n}\n.doctor-drag-wrapper[data-v-33a4be9e] {\n  display: grid !important;\n  align-items: stretch;\n  justify-content: start;\n}\n.doctor-col-header[data-v-33a4be9e] {\n  box-sizing: border-box;\n  min-width: 0;\n}\n.left-buttons[data-v-33a4be9e] {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n}\n.edit-btn[data-v-33a4be9e],\n.close-btn[data-v-33a4be9e] {\n  opacity: 0; /* default hide */\n  visibility: hidden; /* default hide */\n  transition: opacity 0.2s ease;\n}\n.doctor-col-header:hover .edit-btn[data-v-33a4be9e],\n.doctor-col-header:hover .close-btn[data-v-33a4be9e],\n.doctor-col-header .edit-btn.active[data-v-33a4be9e],\n.doctor-col-header .close-btn.active[data-v-33a4be9e] {\n  opacity: 1; /* show on hover */\n  visibility: visible;\n}\n.room:hover .close-btn[data-v-33a4be9e] {\n  opacity: 1;\n  visibility: visible;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

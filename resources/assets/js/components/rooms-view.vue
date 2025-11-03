@@ -33,13 +33,7 @@
             >
               <div class="doctor-header">
                 <div class="left-buttons">
-                  <div
-                    class="edit-btn"
-                    :data-doctor-id="doctor.id"
-                    @click="openEditDoctor(doctor)"
-                  >
-                    <i class="fas fa-edit"></i>
-                  </div>
+                  <div :data-doctor-id="doctor.id"></div>
                   <div
                     class="close-btn"
                     :data-doctor-id="doctor.id"
@@ -51,8 +45,11 @@
 
                 <div
                   class="doctor-name"
+                  style="flex-grow: 1; text-align: center"
                   v-if="!(editingDoctor && editingDoctor.id === doctor.id)"
+                  @dblclick="openEditDoctor(doctor)"
                 >
+                  <i class="fas fa-grip-vertical"></i>
                   {{ doctor.name }}
                 </div>
 
@@ -444,6 +441,11 @@ function padWithZero(value) {
 .doctor-col-header .edit-btn.active,
 .doctor-col-header .close-btn.active {
   opacity: 1; /* show on hover */
+  visibility: visible;
+}
+
+.room:hover .close-btn {
+  opacity: 1;
   visibility: visible;
 }
 </style>

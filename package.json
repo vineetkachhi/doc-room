@@ -26,6 +26,7 @@
         "vue-template-compiler": "^0.1.0"
     },
     "dependencies": {
+        "@fortawesome/fontawesome-free": "^5.15.4",
         "@popperjs/core": "^2.4.4",
         "@vue/cli": "^5.0.9",
         "ably": "^1.2.1",
