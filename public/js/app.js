@@ -46889,8 +46889,9 @@ var intervalValues = [];
         });
       });
     });
-    var ably = new (ably__WEBPACK_IMPORTED_MODULE_4___default().Realtime)("UzgxMQ.8-p_Dw:IxvqUUHQpwlwI14X");
+    var ably = new (ably__WEBPACK_IMPORTED_MODULE_4___default().Realtime)("XULh7A.vFWrmg:4MC41WKzC7gI4bR99wVh1bUMSX67gm9ZBe4-6h_V7tg");
     var channel = ably.channels.get("door-room-channel_" + app_name + "_" + this.groupId);
+    console.log(app_name);
     channel.subscribe("update", function () {
       return _this4.refresh();
     });

@@ -350,6 +350,8 @@ export default {
       "door-room-channel_" + app_name + "_" + this.groupId
     );
 
+    console.log(app_name);
+
     channel.subscribe("update", () => this.refresh());
   },
 };
