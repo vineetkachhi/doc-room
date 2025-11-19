@@ -122,7 +122,7 @@
                         </a>
                     @else
                         <a href="{{ route('login') }}">Login</a>
-                        <a href="{{ route('register') }}">Register</a>
+                        {{-- <a href="{{ route('register') }}">Register</a> --}}
                     @endauth
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf

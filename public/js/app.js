@@ -46729,9 +46729,11 @@ var intervalValues = [];
       doctorColumnWidth: 300,
       seconds_display: process.env.MIX_SHOW_SECONDS,
       editingDoctor: null
+      // zoom state removed
     };
   },
   methods: {
+    // zoom methods removed
     handleDrop: function handleDrop(event) {
       var _event$to$closest;
       var roomId = event.item.dataset.roomId;
@@ -46889,7 +46891,7 @@ var intervalValues = [];
         });
       });
     });
-    var ably = new (ably__WEBPACK_IMPORTED_MODULE_4___default().Realtime)("XULh7A.vFWrmg:4MC41WKzC7gI4bR99wVh1bUMSX67gm9ZBe4-6h_V7tg");
+    var ably = new (ably__WEBPACK_IMPORTED_MODULE_4___default().Realtime)("UzgxMQ.8-p_Dw:IxvqUUHQpwlwI14X");
     var channel = ably.channels.get("door-room-channel_" + app_name + "_" + this.groupId);
     console.log(app_name);
     channel.subscribe("update", function () {
@@ -47155,45 +47157,54 @@ var _hoisted_1 = {
   "class": "rooms-container"
 };
 var _hoisted_2 = {
-  "class": "doctors"
+  "class": "rooms-content"
 };
 var _hoisted_3 = {
-  "class": "doctor-header"
+  "class": "doctors"
 };
 var _hoisted_4 = {
+  "class": "doctor-header"
+};
+var _hoisted_5 = {
   "class": "left-buttons"
 };
-var _hoisted_5 = ["data-doctor-id"];
 var _hoisted_6 = ["data-doctor-id"];
-var _hoisted_7 = ["onDblclick"];
-var _hoisted_8 = {
+var _hoisted_7 = ["data-doctor-id"];
+var _hoisted_8 = ["onDblclick"];
+var _hoisted_9 = {
   key: 1
 };
-var _hoisted_9 = {
+var _hoisted_10 = {
   "class": "rooms"
 };
-var _hoisted_10 = ["data-room-id"];
 var _hoisted_11 = ["data-room-id"];
-var _hoisted_12 = ["data-doctor-id"];
-var _hoisted_13 = ["data-doctor-id", "data-room-id"];
-var _hoisted_14 = ["data-room-id"];
-var _hoisted_15 = {
+var _hoisted_12 = ["data-room-id"];
+var _hoisted_13 = ["data-doctor-id"];
+var _hoisted_14 = ["data-doctor-id", "data-room-id"];
+var _hoisted_15 = ["data-room-id"];
+var _hoisted_16 = {
   "class": "roomNameDetails"
 };
-var _hoisted_16 = {
+var _hoisted_17 = {
   "class": "timerDetails"
 };
-var _hoisted_17 = ["id", "timer-minutes"];
-var _hoisted_18 = ["id"];
-var _hoisted_19 = ["id", "timer-seconds"];
+var _hoisted_18 = ["id", "timer-minutes"];
+var _hoisted_19 = ["id"];
+var _hoisted_20 = ["id", "timer-seconds"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_draggable = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("draggable");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "room-col",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       width: $data.roomColumnWidth + 'px'
     })
-  }, "   ", 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 🩺 Draggable Doctor List "), $data.doctors.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+  }, _toConsumableArray(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "diagonal-box"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "rooms-text"
+  }, "Rooms"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "providers-text"
+  }, "Provider")], -1 /* CACHED */)])), 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 🩺 Draggable Doctor List "), $data.doctors.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
     "class": "doctor-cols",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
@@ -47231,17 +47242,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         onMouseleave: _cache[5] || (_cache[5] = function () {
           return $options.handleCloseBtnHide && $options.handleCloseBtnHide.apply($options, arguments);
         })
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
         "data-doctor-id": doctor.id
-      }, null, 8 /* PROPS */, _hoisted_5), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      }, null, 8 /* PROPS */, _hoisted_6), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
         "class": "close-btn",
         "data-doctor-id": doctor.id,
         onClick: _cache[0] || (_cache[0] = function () {
           return $options.handleRemoveDoctor && $options.handleRemoveDoctor.apply($options, arguments);
         })
-      }, _toConsumableArray(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, _toConsumableArray(_cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "fas fa-times"
-      }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_6)]), !($data.editingDoctor && $data.editingDoctor.id === doctor.id) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_7)]), !($data.editingDoctor && $data.editingDoctor.id === doctor.id) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
         key: 0,
         "class": "doctor-name grab",
         style: {
@@ -47251,7 +47262,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         onDblclick: function onDblclick($event) {
           return $options.openEditDoctor(doctor);
         }
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(doctor.name), 41 /* TEXT, PROPS, NEED_HYDRATION */, _hoisted_7)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(doctor.name), 41 /* TEXT, PROPS, NEED_HYDRATION */, _hoisted_8)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
         "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
           return $data.editingDoctor.name = $event;
         }),
@@ -47267,7 +47278,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.editingDoctor.name]])]))])], 36 /* STYLE, NEED_HYDRATION */)];
     }),
     _: 1 /* STABLE */
-  }, 8 /* PROPS */, ["modelValue", "style", "onEnd"])], 4 /* STYLE */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 🏠 Rooms Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Unassigned Rooms "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_draggable, {
+  }, 8 /* PROPS */, ["modelValue", "style", "onEnd"])], 4 /* STYLE */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 🏠 Rooms Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Unassigned Rooms "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_draggable, {
     modelValue: $data.unassignedRooms,
     "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
       return $data.unassignedRooms = $event;
@@ -47304,9 +47315,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: _cache[7] || (_cache[7] = function () {
           return $options.handleRemoveRoom && $options.handleRemoveRoom.apply($options, arguments);
         })
-      }, _toConsumableArray(_cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, _toConsumableArray(_cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "fas fa-times"
-      }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_11), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(element.name), 1 /* TEXT */)], 40 /* PROPS, NEED_HYDRATION */, _hoisted_10)];
+      }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_12), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(element.name), 1 /* TEXT */)], 40 /* PROPS, NEED_HYDRATION */, _hoisted_11)];
     }),
     _: 1 /* STABLE */
   }, 8 /* PROPS */, ["modelValue", "style", "onAdd", "onUpdate"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Doctor Assigned Rooms "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.doctors, function (doctor) {
@@ -47352,24 +47363,24 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           onClick: _cache[11] || (_cache[11] = function () {
             return $options.handleRemoveRoom && $options.handleRemoveRoom.apply($options, arguments);
           })
-        }, _toConsumableArray(_cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        }, _toConsumableArray(_cache[17] || (_cache[17] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
           "class": "fas fa-times"
-        }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_14), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(element.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+        }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_15), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(element.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
           id: 'minutes_' + element.id,
           "class": "timer-minutes",
           "timer-minutes": element.timer_minutes
-        }, null, 8 /* PROPS */, _hoisted_17), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+        }, null, 8 /* PROPS */, _hoisted_18), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
           id: 'colon_' + element.id,
           "class": "timer-colon"
-        }, null, 8 /* PROPS */, _hoisted_18), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+        }, null, 8 /* PROPS */, _hoisted_19), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
           id: 'seconds_' + element.id,
           "class": "timer-seconds",
           "timer-seconds": element.timer_seconds
-        }, null, 8 /* PROPS */, _hoisted_19)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.seconds_display === 'true']])])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_13)];
+        }, null, 8 /* PROPS */, _hoisted_20)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.seconds_display === 'true']])])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_14)];
       }),
       _: 2 /* DYNAMIC */
-    }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["modelValue", "onUpdate:modelValue", "onAdd", "onUpdate"])], 12 /* STYLE, PROPS */, _hoisted_12);
-  }), 128 /* KEYED_FRAGMENT */))])]);
+    }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["modelValue", "onUpdate:modelValue", "onAdd", "onUpdate"])], 12 /* STYLE, PROPS */, _hoisted_13);
+  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Zoom UI removed ")]);
 }
 
 /***/ }),
@@ -53947,7 +53958,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.doctor-header[data-v-33a4be9e] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n.left-buttons[data-v-33a4be9e] {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n}\n.edit-btn i[data-v-33a4be9e] {\n  color: #007bff;\n  cursor: pointer;\n  font-size: 16px;\n}\n.close-btn i[data-v-33a4be9e] {\n  color: red;\n  cursor: pointer;\n}\n.edit-input[data-v-33a4be9e] {\n  width: 90%;\n  border: 1px solid #ccc;\n  border-radius: 4px;\n  padding: 2px 6px;\n  margin-top: 4px;\n}\n.doctor-drag-wrapper[data-v-33a4be9e] {\n  display: grid !important;\n  align-items: stretch;\n  justify-content: start;\n}\n.doctor-col-header[data-v-33a4be9e] {\n  box-sizing: border-box;\n  min-width: 0;\n}\n.left-buttons[data-v-33a4be9e] {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n}\n.edit-btn[data-v-33a4be9e],\n.close-btn[data-v-33a4be9e] {\n  opacity: 0; /* default hide */\n  visibility: hidden; /* default hide */\n  transition: opacity 0.2s ease;\n}\n.doctor-col-header:hover .edit-btn[data-v-33a4be9e],\n.doctor-col-header:hover .close-btn[data-v-33a4be9e],\n.doctor-col-header .edit-btn.active[data-v-33a4be9e],\n.doctor-col-header .close-btn.active[data-v-33a4be9e] {\n  opacity: 1; /* show on hover */\n  visibility: visible;\n}\n.room:hover .close-btn[data-v-33a4be9e] {\n  opacity: 1;\n  visibility: visible;\n}\n.doctor-name i[data-v-33a4be9e] {\n  opacity: 0; /* hide icon by default */\n  transition: opacity 0.3s ease;\n  margin-right: 5px; /* spacing before name */\n}\n.doctor-name:hover i[data-v-33a4be9e] {\n  opacity: 1; /* show icon on hover */\n  cursor: pointer; /* hand cursor */\n  color: #007bff; /* optional: blue hover color */\n}\n.grab[data-v-33a4be9e] {\n  cursor: grab;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* ====== CSS untouched (zoom UI removed) ====== */\n.doctor-header[data-v-33a4be9e] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n.left-buttons[data-v-33a4be9e] {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n}\n.edit-btn i[data-v-33a4be9e] {\n  color: #007bff;\n  cursor: pointer;\n  font-size: 16px;\n}\n.close-btn i[data-v-33a4be9e] {\n  color: red;\n  cursor: pointer;\n}\n.edit-input[data-v-33a4be9e] {\n  width: 90%;\n  border: 1px solid #ccc;\n  border-radius: 4px;\n  padding: 2px 6px;\n  margin-top: 4px;\n}\n.doctor-drag-wrapper[data-v-33a4be9e] {\n  display: grid !important;\n  align-items: stretch;\n  justify-content: start;\n}\n.doctor-col-header[data-v-33a4be9e] {\n  box-sizing: border-box;\n  min-width: 0;\n}\n.left-buttons[data-v-33a4be9e] {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n}\n.edit-btn[data-v-33a4be9e],\n.close-btn[data-v-33a4be9e] {\n  opacity: 0; /* default hide */\n  visibility: hidden; /* default hide */\n  transition: opacity 0.2s ease;\n}\n.doctor-col-header:hover .edit-btn[data-v-33a4be9e],\n.doctor-col-header:hover .close-btn[data-v-33a4be9e],\n.doctor-col-header .edit-btn.active[data-v-33a4be9e],\n.doctor-col-header .close-btn.active[data-v-33a4be9e] {\n  opacity: 1; /* show on hover */\n  visibility: visible;\n}\n.room:hover .close-btn[data-v-33a4be9e] {\n  opacity: 1;\n  visibility: visible;\n}\n.doctor-name i[data-v-33a4be9e] {\n  opacity: 0; /* hide icon by default */\n  transition: opacity 0.3s ease;\n  margin-right: 5px; /* spacing before name */\n}\n.doctor-name:hover i[data-v-33a4be9e] {\n  opacity: 1; /* show icon on hover */\n  cursor: pointer; /* hand cursor */\n  color: #007bff; /* optional: blue hover color */\n}\n.grab[data-v-33a4be9e] {\n  cursor: grab;\n}\n.room-col[data-v-33a4be9e] {\n  position: relative;\n  height: 80px;\n  border: 1px solid #ccc;\n}\n\n/* Diagonal line box */\n.diagonal-box[data-v-33a4be9e] {\n  position: relative;\n  width: 100%;\n  height: 100%;\n}\n\n/* Diagonal line */\n.diagonal-box[data-v-33a4be9e]::before {\n  content: \"\";\n  position: absolute;\n  width: 150%;\n  height: 2px;\n  background: black;\n  transform: rotate(30deg);\n  top: 35%;\n  left: -20%;\n}\n\n/* Left bottom text */\n.rooms-text[data-v-33a4be9e] {\n  position: absolute;\n  bottom: -23px;\n  left: 10px;\n  font-size: 18px;\n}\n\n/* Top right text */\n.providers-text[data-v-33a4be9e] {\n  position: absolute;\n  top: -23px;\n  right: 10px;\n  font-size: 18px;\n}\n\n/* Removed .zoom-popup rules since zoom removed */\n.rooms-content[data-v-33a4be9e] {\n  display: inline-block;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

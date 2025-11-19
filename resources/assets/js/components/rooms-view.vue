@@ -1,127 +1,95 @@
 <template>
   <div class="rooms-container">
-    <div class="doctors">
-      <div class="room-col" :style="{ width: roomColumnWidth + 'px' }">
-        &nbsp;
-      </div>
+    <div class="rooms-content">
+      <div class="doctors">
+        <div class="room-col" :style="{ width: roomColumnWidth + 'px' }">
+          <div class="diagonal-box">
+            <span class="rooms-text">Rooms</span>
+            <span class="providers-text">Provider</span>
+          </div>
+        </div>
 
-      <!-- 🩺 Draggable Doctor List -->
-      <div
-        class="doctor-cols"
-        v-if="doctors.length"
-        :style="{ width: 'calc(100vw - ' + roomColumnWidth + 'px)' }"
-      >
-        <draggable
-          v-model="doctors"
-          item-key="id"
-          class="doctor-drag-wrapper"
-          :style="{
-            display: 'grid',
-            gridTemplateColumns:
-              'repeat(' + doctors.length + ', ' + doctorColumnWidth + 'px)',
-            width: '100%',
-          }"
-          :group="{ name: 'doctors', pull: false, put: false }"
-          @end="handleDoctorSort"
+        <!-- 🩺 Draggable Doctor List -->
+        <div
+          class="doctor-cols"
+          v-if="doctors.length"
+          :style="{ width: 'calc(100vw - ' + roomColumnWidth + 'px)' }"
         >
-          <template #item="{ element: doctor }">
-            <div
-              class="doctor-col doctor-col-header"
-              :style="{ width: doctorColumnWidth + 'px' }"
-              @mouseenter="handleCloseBtnShow"
-              @mouseleave="handleCloseBtnHide"
-            >
-              <div class="doctor-header">
-                <div class="left-buttons">
-                  <div :data-doctor-id="doctor.id"></div>
+          <draggable
+            v-model="doctors"
+            item-key="id"
+            class="doctor-drag-wrapper"
+            :style="{
+              display: 'grid',
+              gridTemplateColumns:
+                'repeat(' + doctors.length + ', ' + doctorColumnWidth + 'px)',
+              width: '100%',
+            }"
+            :group="{ name: 'doctors', pull: false, put: false }"
+            @end="handleDoctorSort"
+          >
+            <template #item="{ element: doctor }">
+              <div
+                class="doctor-col doctor-col-header"
+                :style="{ width: doctorColumnWidth + 'px' }"
+                @mouseenter="handleCloseBtnShow"
+                @mouseleave="handleCloseBtnHide"
+              >
+                <div class="doctor-header">
+                  <div class="left-buttons">
+                    <div :data-doctor-id="doctor.id"></div>
+                    <div
+                      class="close-btn"
+                      :data-doctor-id="doctor.id"
+                      @click="handleRemoveDoctor"
+                    >
+                      <i class="fas fa-times"></i>
+                    </div>
+                  </div>
+
                   <div
-                    class="close-btn"
-                    :data-doctor-id="doctor.id"
-                    @click="handleRemoveDoctor"
+                    class="doctor-name grab"
+                    style="flex-grow: 1; text-align: center"
+                    v-if="!(editingDoctor && editingDoctor.id === doctor.id)"
+                    @dblclick="openEditDoctor(doctor)"
                   >
-                    <i class="fas fa-times"></i>
+                    {{ doctor.name }}
+                  </div>
+
+                  <div v-else>
+                    <input
+                      v-model="editingDoctor.name"
+                      @keyup.enter="saveDoctorEdit"
+                      @blur="saveDoctorEdit"
+                      class="edit-input"
+                      placeholder="Edit doctor name"
+                      ref="editInput"
+                    />
                   </div>
                 </div>
-
-                <div
-                  class="doctor-name grab"
-                  style="flex-grow: 1; text-align: center"
-                  v-if="!(editingDoctor && editingDoctor.id === doctor.id)"
-                  @dblclick="openEditDoctor(doctor)"
-                >
-                  {{ doctor.name }}
-                </div>
-
-                <div v-else>
-                  <input
-                    v-model="editingDoctor.name"
-                    @keyup.enter="saveDoctorEdit"
-                    @blur="saveDoctorEdit"
-                    class="edit-input"
-                    placeholder="Edit doctor name"
-                    ref="editInput"
-                  />
-                </div>
               </div>
-            </div>
-          </template>
-        </draggable>
+            </template>
+          </draggable>
+        </div>
       </div>
-    </div>
 
-    <!-- 🏠 Rooms Section -->
-    <div class="rooms">
-      <!-- Unassigned Rooms -->
-      <draggable
-        v-model="unassignedRooms"
-        :item-key="'id'"
-        class="room-col"
-        :style="{ width: roomColumnWidth + 'px' }"
-        :data-doctor-id="0"
-        :group="{ name: 'rooms', pull: true, put: true }"
-        @add="handleDrop"
-        @update="handleSort"
-      >
-        <template #item="{ element }">
-          <div
-            class="room"
-            :data-doctor-id="0"
-            :data-room-id="element.id"
-            @mouseenter="handleCloseBtnShow"
-            @mouseleave="handleCloseBtnHide"
-          >
-            <div
-              class="close-btn"
-              :data-room-id="element.id"
-              @click="handleRemoveRoom"
-            >
-              <i class="fas fa-times"></i>
-            </div>
-            {{ element.name }}
-          </div>
-        </template>
-      </draggable>
-
-      <!-- Doctor Assigned Rooms -->
-      <div
-        class="doctor-col"
-        v-for="doctor in doctors"
-        :key="doctor.id"
-        :style="{ width: doctorColumnWidth + 'px' }"
-        :data-doctor-id="doctor.id"
-      >
+      <!-- 🏠 Rooms Section -->
+      <div class="rooms">
+        <!-- Unassigned Rooms -->
         <draggable
-          v-model="doctor.rooms"
+          v-model="unassignedRooms"
           :item-key="'id'"
+          class="room-col"
+          :style="{ width: roomColumnWidth + 'px' }"
+          :data-doctor-id="0"
           :group="{ name: 'rooms', pull: true, put: true }"
           @add="handleDrop"
           @update="handleSort"
-          :style="{ minHeight: '100%' }"
         >
           <template #item="{ element }">
             <div
               class="room"
-              :data-doctor-id="doctor.id"
+              :data-doctor-id="0"
               :data-room-id="element.id"
               @mouseenter="handleCloseBtnShow"
               @mouseleave="handleCloseBtnHide"
@@ -133,30 +101,68 @@
               >
                 <i class="fas fa-times"></i>
               </div>
-              <span class="roomNameDetails">{{ element.name }}</span>
-              <div class="timerDetails">
-                <label
-                  :id="'minutes_' + element.id"
-                  class="timer-minutes"
-                  :timer-minutes="element.timer_minutes"
-                ></label>
-                <span v-show="seconds_display === 'true'">
-                  <label
-                    :id="'colon_' + element.id"
-                    class="timer-colon"
-                  ></label>
-                  <label
-                    :id="'seconds_' + element.id"
-                    class="timer-seconds"
-                    :timer-seconds="element.timer_seconds"
-                  ></label>
-                </span>
-              </div>
+              {{ element.name }}
             </div>
           </template>
         </draggable>
+
+        <!-- Doctor Assigned Rooms -->
+        <div
+          class="doctor-col"
+          v-for="doctor in doctors"
+          :key="doctor.id"
+          :style="{ width: doctorColumnWidth + 'px' }"
+          :data-doctor-id="doctor.id"
+        >
+          <draggable
+            v-model="doctor.rooms"
+            :item-key="'id'"
+            :group="{ name: 'rooms', pull: true, put: true }"
+            @add="handleDrop"
+            @update="handleSort"
+            :style="{ minHeight: '100%' }"
+          >
+            <template #item="{ element }">
+              <div
+                class="room"
+                :data-doctor-id="doctor.id"
+                :data-room-id="element.id"
+                @mouseenter="handleCloseBtnShow"
+                @mouseleave="handleCloseBtnHide"
+              >
+                <div
+                  class="close-btn"
+                  :data-room-id="element.id"
+                  @click="handleRemoveRoom"
+                >
+                  <i class="fas fa-times"></i>
+                </div>
+                <span class="roomNameDetails">{{ element.name }}</span>
+                <div class="timerDetails">
+                  <label
+                    :id="'minutes_' + element.id"
+                    class="timer-minutes"
+                    :timer-minutes="element.timer_minutes"
+                  ></label>
+                  <span v-show="seconds_display === 'true'">
+                    <label
+                      :id="'colon_' + element.id"
+                      class="timer-colon"
+                    ></label>
+                    <label
+                      :id="'seconds_' + element.id"
+                      class="timer-seconds"
+                      :timer-seconds="element.timer_seconds"
+                    ></label>
+                  </span>
+                </div>
+              </div>
+            </template>
+          </draggable>
+        </div>
       </div>
     </div>
+    <!-- Zoom UI removed -->
   </div>
 </template>
 
@@ -185,9 +191,12 @@ export default {
       doctorColumnWidth: 300,
       seconds_display: process.env.MIX_SHOW_SECONDS,
       editingDoctor: null,
+      // zoom state removed
     };
   },
   methods: {
+    // zoom methods removed
+
     handleDrop(event) {
       const roomId = event.item.dataset.roomId;
       const fromDoctorId = event.item.dataset.doctorId;
@@ -281,6 +290,7 @@ export default {
       if (confirm("Would you like to remove this room?"))
         this.handleRemove("room", roomId);
     },
+
     handleRemoveDoctor(e) {
       const { doctorId } = e.currentTarget.dataset;
       if (confirm("Would you like to remove this doctor?"))
@@ -382,6 +392,7 @@ function padWithZero(value) {
 </script>
 
 <style scoped>
+/* ====== CSS untouched (zoom UI removed) ====== */
 .doctor-header {
   display: flex;
   align-items: center;
@@ -465,5 +476,51 @@ function padWithZero(value) {
 .grab {
   cursor: -webkit-grab;
   cursor: grab;
+}
+.room-col {
+  position: relative;
+  height: 80px;
+  border: 1px solid #ccc;
+}
+
+/* Diagonal line box */
+.diagonal-box {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Diagonal line */
+.diagonal-box::before {
+  content: "";
+  position: absolute;
+  width: 150%;
+  height: 2px;
+  background: black;
+  transform: rotate(30deg);
+  top: 35%;
+  left: -20%;
+}
+
+/* Left bottom text */
+.rooms-text {
+  position: absolute;
+  bottom: -23px;
+  left: 10px;
+  font-size: 18px;
+}
+
+/* Top right text */
+.providers-text {
+  position: absolute;
+  top: -23px;
+  right: 10px;
+  font-size: 18px;
+}
+
+/* Removed .zoom-popup rules since zoom removed */
+
+.rooms-content {
+  display: inline-block;
 }
 </style>
