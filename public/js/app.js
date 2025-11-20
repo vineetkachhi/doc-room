@@ -46891,11 +46891,12 @@ var intervalValues = [];
         });
       });
     });
-    var ably = new (ably__WEBPACK_IMPORTED_MODULE_4___default().Realtime)("UzgxMQ.8-p_Dw:IxvqUUHQpwlwI14X");
+    var ably = new (ably__WEBPACK_IMPORTED_MODULE_4___default().Realtime)("ovWjpQ.pbG8wg:hDHSsrpQ8Pjf1qEX8BRG6devPIC23a6ge7OcLHry4KE");
     var channel = ably.channels.get("door-room-channel_" + app_name + "_" + this.groupId);
     console.log(app_name);
-    channel.subscribe("update", function () {
-      return _this4.refresh();
+    channel.subscribe("update", function (message) {
+      console.log("Message received:", message);
+      _this4.refresh();
     });
   }
 });

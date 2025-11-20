@@ -361,8 +361,10 @@ export default {
     );
 
     console.log(app_name);
-
-    channel.subscribe("update", () => this.refresh());
+    channel.subscribe("update", (message) => {
+      console.log("Message received:", message);
+      this.refresh();
+    });
   },
 };
 
