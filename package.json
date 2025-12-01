@@ -29,7 +29,7 @@
         "@fortawesome/fontawesome-free": "^5.15.4",
         "@popperjs/core": "^2.4.4",
         "@vue/cli": "^5.0.9",
-        "ably": "^1.2.1",
+        "ably": "^2.14.0",
         "chokidar": "^3.4.2",
         "vue-click-outside": "^1.1.0",
         "vuedraggable": "^4.1.0",
